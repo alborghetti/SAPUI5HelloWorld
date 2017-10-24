@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<title>Hello World App</title>
+	    <!--Application bootstrap
+	    	src="../../resources/sap-ui-core.js" -> Identifies the boostrap file, sap-ui-core.js is the standard,
+	    											with this configuration SAPUI5 synchronously loads the libraries specified in the data-sap-ui-libs
+	    											others bootstrap files are:
+	    											sap-ui-core-nojQuery.js        - If you want to load your JQuery library
+	    											sap-ui-core-all.js             - Deprecated
+	    											sap/ui/core/library-preload.js - Like -all but the modules are parsed and executed only on demand, and not immediately.  
+	    																			 If the configuration option is set to preload, SAPUI5 automatically loads the file
+	    																			 (data-sap-ui-preload="async").
+	    											sap-ui-core-lean.js            - This use case is usually not used and may be removed in future.
+	    											sap-ui5.js                     - This bootstrap file contains all JavaScript modules from the  sap.ui.core, sap.ui.commons,  
+	    											                                 sap.ui.table and sap.ui.ux3 libraries. 
+	    											                                 You can not extend the set of libraries.
+	    										    sap-ui-custom*.js              - This bootstrap file is reserved for custom merged files created by the application.
+			data-sap-ui-theme="sap_belize"       -> Supported themes:
+														sap_belize
+														sap_belize_plus
+														sap_belize_hcb (high contrast black)
+														sap_belize_hcw (high contrast white)
+												    Theming can be set in the bootstrap and overwrite with URL parameter (index.html?sap-ui-theme=sap_belize)
+												    You can use method sap.ui.getCore.applyTheme to switch themes on the fly. 
+	    -->
+		<!--<script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"-->
+		<script src="resources/sap-ui-core.js"
+		id="sap-ui-bootstrap"
+		data-sap-ui-theme="sap_belize_plus"
+		data-sap-ui-libs="sap.m"
+		data-sap-ui-preload="async">
+	</script>
+	<!--Initialize the app
+		sap.ui.getCore().attachInit 			-> we attach a function to the global attachInit event. This function will be called as soon as SAPUI5 is loaded and initialized
+		var app = new sap.m.App("myApp", {		-> We create an App controll
+		app.placeAt("content"); 				-> App control is placed at the "content" element
+		var page1 = new sap.m.Page("page1",		-> We create a new page control
+		var page2 = new sap.m.Page("page2", {   -> And an other one
+		app.addPage(page1).addPage(page2);      -> Two pages are added to the App control
+	-->
+	<script type="text/javascript">
+		sap.ui.getCore().attachInit(function () {
+			// create a mobile app and display page1 initially
+			var app = new sap.m.App("myApp", {
+				initialPage: "page1"
+			});
+			// create the first page
+			var page1 = new sap.m.Page("page1", {
+				title : "Hello World",
+				showNavButton : false,
+				content : new sap.m.Button({
+					text : "Go to Page 2",
+					press : function () {
+						// navigate to page2
+						app.to("page2");
+					}
+				})
+			});
+			// create the second page with a back button
+			var page2 = new sap.m.Page("page2", {
+				title : "Hello Page 2",
+				showNavButton : true,
+				navButtonPress : function () {
+					// go back to the previous page
+					app.back();
+				}
+			});
+			// add both pages to the app
+			app.addPage(page1).addPage(page2);
+			// place the app into the HTML document
+			app.placeAt("content");
+		});
+	</script>
+</head>
+<body class="sapUiBody" id="content">
+</body>
+</html>
